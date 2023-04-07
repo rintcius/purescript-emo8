@@ -1,5 +1,5 @@
 module Emo8.Data.Emoji
-  ( Emoji
+  ( Emoji(..)
   , grinningFace
   , grinningFaceWithBigEyes
   , grinningFaceWithSmilingEyes
