@@ -1,15 +1,17 @@
 module Emo8.GameBoot
-  ( class GameBoot
+  ( BootState
+  , class GameBoot
   , finished
-  , BootState
   , initialBootState
-  ) where
+  , initialTime
+  )
+  where
 
 import Prelude
+
 import Data.Array ((..))
 import Data.Foldable (for_)
 import Data.Int (floor, toNumber)
-import Data.Symbol (SProxy(..))
 import Emo8.Data.Color as C
 import Emo8.Data.Emoji as E
 import Emo8.Data.Input (Input)
@@ -22,6 +24,7 @@ import Emo8.Parser.Type (Score)
 import Emo8.Type (Rect)
 import Emo8.Util.Input (anyInput, catchInput, noInput)
 import Math (cos, pi, sin)
+import Type.Proxy (Proxy(..))
 
 class
   Game s <= GameBoot s where
@@ -145,7 +148,7 @@ initialTime :: Int
 initialTime = 120
 
 beepScore :: Score
-beepScore = parse (SProxy :: SProxy Beep)
+beepScore = parse (Proxy :: Proxy Beep)
 
 type Beep
   = """

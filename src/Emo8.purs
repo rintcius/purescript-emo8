@@ -3,11 +3,11 @@ module Emo8
   , emo8Dev
   ) where
 
-import Prelude
+import Prelude 
 import Audio.WebAudio.BaseAudioContext (newAudioContext)
 import Audio.WebAudio.Types (AudioContext, OscillatorNode)
 import Data.Int (toNumber)
-import Data.List as L
+import Data.List as L 
 import Data.Map as Map
 import Data.Maybe (Maybe(..))
 import Effect (Effect)

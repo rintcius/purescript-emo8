@@ -5,15 +5,15 @@ module Emo8.Parser.NConvert
   , nmatch
   ) where
 
-import Prelude (($))
 import Data.Either (Either(..))
 import Data.List as L
-import Data.Symbol (SProxy(..))
 import Emo8.Parser.Type (IsNote(..), NoEmoji(..), Result)
+import Prelude (($))
 import Prim.Symbol as S
+import Type.Proxy (Proxy(..))
 
 class NConvert (s :: Symbol) where
-  nconvert :: SProxy s -> L.List (Result IsNote)
+  nconvert :: Proxy s -> L.List (Result IsNote)
 
 instance nConvertNil :: NConvert "" where
   nconvert _ = L.Nil
@@ -25,12 +25,12 @@ else instance nConvertCons ::
   NConvert union where
   nconvert _ = L.Cons (nmatch headP) $ nconvert tailP
     where
-    headP = SProxy :: SProxy head
+    headP = Proxy :: Proxy head
 
-    tailP = SProxy :: SProxy tail
+    tailP = Proxy :: Proxy tail
 
 class NMatch (s :: Symbol) where
-  nmatch :: SProxy s -> Result IsNote
+  nmatch :: Proxy s -> Result IsNote
 
 instance nmatchSpace :: NMatch " " where
   nmatch _ = Left Space

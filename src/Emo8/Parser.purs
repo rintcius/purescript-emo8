@@ -4,9 +4,9 @@ module Emo8.Parser
   ) where
 
 import Prelude
+
 import Data.Either (Either(..))
 import Data.List as L
-import Data.Symbol (SProxy(..))
 import Data.Tuple (Tuple(..), fst)
 import Emo8.Data.Emoji as E
 import Emo8.Data.Note as N
@@ -14,11 +14,12 @@ import Emo8.Parser.EConvert (class EConvert, econvert)
 import Emo8.Parser.NConstraint (class NConstraint)
 import Emo8.Parser.NConvert (class NConvert, nconvert)
 import Emo8.Parser.Type (IsNote(..), NoEmoji(..), Result)
+import Type.Proxy (Proxy(..))
 
 -- | Emo8 emoji parser class.
 class Parser (s :: Symbol) a where
   -- | It parse `Symbol` type as `EmojiMap` or `Score` value.
-  parse :: SProxy s -> L.List (L.List a)
+  parse :: Proxy s -> L.List (L.List a)
 
 -- | Example
 -- | ```
@@ -43,7 +44,7 @@ instance parseEmojiMap ::
       <<< L.filter (notEq L.Nil)
       $ go res L.Nil
     where
-    res = econvert (SProxy :: SProxy s)
+    res = econvert (Proxy :: Proxy s)
 
 -- | Example
 -- | ```
@@ -69,7 +70,7 @@ instance parseScore ::
       <<< L.filter (notEq L.Nil)
       $ go res L.Nil
     where
-    res = nconvert (SProxy :: SProxy s)
+    res = nconvert (Proxy :: Proxy s)
 
     -- NOTE: it supposed to be the same length of notes as UpToElevenLength
     pickIsNote :: L.List IsNote -> L.List N.Note

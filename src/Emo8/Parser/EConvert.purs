@@ -6,15 +6,16 @@ module Emo8.Parser.EConvert
   ) where
 
 import Prelude
+
 import Data.Either (Either(..))
 import Data.List as L
-import Data.Symbol (SProxy(..))
 import Emo8.Data.Emoji as E
 import Emo8.Parser.Type (NoEmoji(..), Result)
 import Prim.Symbol as S
+import Type.Proxy (Proxy(..))
 
 class EConvert (s :: Symbol) where
-  econvert :: SProxy s -> L.List (Result E.Emoji)
+  econvert :: Proxy s -> L.List (Result E.Emoji)
 
 instance eConvertNil :: EConvert "" where
   econvert _ = L.Nil
@@ -26,12 +27,12 @@ else instance eConvertCons ::
   EConvert union where
   econvert _ = L.Cons (ematch headP) $ econvert tailP
     where
-    headP = SProxy :: SProxy head
+    headP = Proxy :: Proxy head
 
-    tailP = SProxy :: SProxy tail
+    tailP = Proxy :: Proxy tail
 
 class EMatch (s :: Symbol) where
-  ematch :: SProxy s -> Result E.Emoji
+  ematch :: Proxy s -> Result E.Emoji
 
 instance ematchSpace :: EMatch " " where
   ematch _ = Left Space

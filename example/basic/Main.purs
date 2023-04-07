@@ -1,10 +1,10 @@
 module Main where
 
 import Prelude
+
 import Data.Generic.Rep (class Generic)
 import Data.Maybe (Maybe(..))
 import Data.Monoid (guard)
-import Data.Symbol (SProxy(..))
 import Effect (Effect)
 import Emo8 (emo8Dev)
 import Emo8.Data.Color as C
@@ -24,6 +24,7 @@ import Emo8.Util.Collide (sinkCanvas, sinkMapXY)
 import Emo8.Util.Input (catchInput, noInput)
 import Emo8.Util.State (defaultDecode, defaultEncode)
 import Foreign.Generic (class Decode, class Encode)
+import Type.Proxy (Proxy(..))
 
 data State
   = State
@@ -193,10 +194,10 @@ main = do
     }
 
 stage :: EmojiMap
-stage = parse (SProxy :: SProxy Stage)
+stage = parse (Proxy :: Proxy Stage)
 
 jump :: Score
-jump = parse (SProxy :: SProxy Jump)
+jump = parse (Proxy :: Proxy Jump)
 
 walls :: Array E.Emoji
 walls = [ E.japaneseNoVacancyButton ] -- 🈵

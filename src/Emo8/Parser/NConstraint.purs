@@ -1,28 +1,29 @@
 module Emo8.Parser.NConstraint
-  ( class NConstraint
-  , class ToNList
-  , class MatchNote
-  , class ExtractNR
-  , class UpToThreeNote
-  , class ExtractNVR
-  , class UpTo13Length
-  , kind SpecChar
-  , Space
-  , Return
-  , kind Note
-  , Rest
-  , Note
-  , Vacancy
-  , kind NList
-  , NNil
-  , NCons
-  , kind Label
-  , S
-  , N
-  , kind LList
+  ( LCons
+  , LList(..)
   , LNil
-  , LCons
-  ) where
+  , Label
+  , N
+  , NCons
+  , NList
+  , NNil
+  , Note
+  , NoteD
+  , Rest
+  , Return
+  , S
+  , Space
+  , SpecChar
+  , Vacancy
+  , class ExtractNR
+  , class ExtractNVR
+  , class MatchNote
+  , class NConstraint
+  , class ToNList
+  , class UpTo13Length
+  , class UpToThreeNote
+  )
+  where
 
 import Prim.Symbol as S
 import Prim.TypeError as TE
@@ -38,21 +39,20 @@ instance nConstraint ::
   ) =>
   NConstraint s
 
-foreign import kind SpecChar
+data SpecChar
 
 foreign import data Space :: SpecChar
 
 foreign import data Return :: SpecChar
 
-foreign import kind Note
+data Note
 
 foreign import data Rest :: SpecChar -> Note
 
-foreign import data Note :: Note
-
+foreign import data NoteD :: Note
 foreign import data Vacancy :: Note
 
-foreign import kind NList
+data NList
 
 foreign import data NNil :: NList
 
@@ -70,7 +70,7 @@ else instance toNListCons ::
 
 class MatchNote (s :: Symbol) (n :: Note) | s -> n
 
-instance matchNoteNote :: MatchNote "🎹" Note
+instance matchNoteNote :: MatchNote "🎹" NoteD
 
 instance matchNoteVacancy :: MatchNote "🈳" Vacancy
 
@@ -78,13 +78,13 @@ instance matchNoteSpace :: MatchNote " " (Rest Space)
 
 instance matchNoteReturn :: MatchNote "\n" (Rest Return)
 
-foreign import kind Label
+data Label
 
 foreign import data S :: Label
 
 foreign import data N :: Label
 
-foreign import kind LList
+data LList
 
 foreign import data LNil :: LList
 
@@ -96,7 +96,7 @@ class ExtractNR (nl :: NList) (ll :: LList) | nl -> ll
 
 instance extractNRNil :: ExtractNR NNil LNil
 
-instance extractNRConsNote :: ExtractNR nl ll => ExtractNR (NCons Note nl) (LCons S ll)
+instance extractNRConsNote :: ExtractNR nl ll => ExtractNR (NCons NoteD nl) (LCons S ll)
 
 instance extractNRConsVacancy :: ExtractNR nl ll => ExtractNR (NCons Vacancy nl) ll
 
@@ -134,7 +134,7 @@ class ExtractNVR (nl :: NList) (ll :: LList) | nl -> ll
 
 instance extractNVRNil :: ExtractNVR NNil LNil
 
-instance extractNVRConsNote :: ExtractNVR nl ll => ExtractNVR (NCons Note nl) (LCons S ll)
+instance extractNVRConsNote :: ExtractNVR nl ll => ExtractNVR (NCons NoteD nl) (LCons S ll)
 
 instance extractNVRConsVacancy :: ExtractNVR nl ll => ExtractNVR (NCons Vacancy nl) (LCons S ll)
 
